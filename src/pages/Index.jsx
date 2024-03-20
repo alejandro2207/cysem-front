@@ -1,29 +1,21 @@
-import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Producto from "../components/Producto";
+import clienteAxios from "../config/clienteAxios";
+import useProductos from "../hooks/useProductos";
 
-export async function loader() {
-  
-    const url = "http://localhost:3000/api/productos/";
-    const respuesta = await fetch(url);
-    const resultado = await respuesta.json()
-    
-    return resultado.productos
-}
 
 const Index = () => {
-  const productos = useLoaderData();
-  console.log(productos)
+
+  const {productos} = useProductos()
 
   return (
     <>
       <main className="">
         <h2 className=""> Nuestros Productos</h2>
         {productos.length ? (
-          <div>
-            {productos.map( producto => (
-              <Producto
-                key={producto?._id}
-                producto={producto}/>
+          <div className="grid grid-cols-3 gap-4 w-900">
+            {productos.map((producto) => (
+              <Producto key={producto?._id} producto={producto} />
             ))}
           </div>
         ) : (
